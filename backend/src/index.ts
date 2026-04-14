@@ -1,6 +1,11 @@
 import app from "./app";
-import "dotenv/config";
+import http from "http";
+import { initSocket } from "./socket";
 
-app.listen(5000, () => {
+const server = http.createServer(app);
+
+initSocket(server);
+
+server.listen(5000, () => {
   console.log("Server running on port 5000");
 });

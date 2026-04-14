@@ -1,4 +1,6 @@
 import { prisma } from "../../config/db";
+import { sendNotification } from "../../services/notification.service.";
+
 
 // 🟢 CREATE TASK (Manager only)
 export const createTask = async (data: any, user: any) => {
@@ -6,7 +8,7 @@ export const createTask = async (data: any, user: any) => {
     throw new Error("Only managers can create tasks");
   }
 
-  return prisma.task.create({
+  const task = await prisma.task.create({
     data: {
       title: data.title,
       description: data.description,
@@ -15,6 +17,11 @@ export const createTask = async (data: any, user: any) => {
       assigneeId: data.assigneeId,
     },
   });
+
+  // 🔔 SEND NOTIFICATION
+  await sendNotification(data.assigneeId, `New task assigned: ${task.title}`);
+
+  return task;
 };
 
 // 🟡 START TASK
