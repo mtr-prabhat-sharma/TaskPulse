@@ -45,3 +45,12 @@ export const returnTask = async (req: any, res: Response) => {
     res.status(400).json({ message: err.message });
   }
 };
+
+export const getAll = async (req: any, res: Response) => {
+  try {
+    const tasks = await taskService.getTasks();
+    res.json(tasks);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+};

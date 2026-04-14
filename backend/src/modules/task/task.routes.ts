@@ -4,6 +4,8 @@ import { authMiddleware } from "../../middleware/auth.middleware";
 
 const router = express.Router();
 
+router.get("/", authMiddleware, controller.getAll);
+
 router.post("/", authMiddleware, controller.create);
 router.patch("/:id/start", authMiddleware, controller.start);
 router.patch("/:id/complete", authMiddleware, controller.complete);

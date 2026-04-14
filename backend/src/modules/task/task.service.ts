@@ -1,5 +1,5 @@
 import { prisma } from "../../config/db";
-import { sendNotification } from "../../services/notification.service.";
+import { sendNotification } from "../../services/notification.service";
 
 
 // 🟢 CREATE TASK (Manager only)
@@ -132,3 +132,16 @@ export const returnTask = async (taskId: string, user: any) => {
     data: { status: "RETURNED" },
   });
 };
+
+
+export const getTasks = async () => {
+  return prisma.task.findMany({
+    include: {
+      assignee: true, // optional but useful
+    },
+    orderBy: {
+      dueDate: "asc",
+    },
+  });
+};
+
