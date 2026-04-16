@@ -1,0 +1,29 @@
+.container {
+  padding: 30px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.task-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.task-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 200px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  background: #f9f9f9;
+}
+
+.task-card:hover {
+  transform: scale(1.05);
+  background: #e6f7ff;
+}

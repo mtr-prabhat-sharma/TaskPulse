@@ -1,0 +1,87 @@
+.container {
+  padding: 30px;
+  max-width: 700px;
+  margin: auto;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.status {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.status.PENDING {
+  color: orange;
+}
+
+.status.IN_PROGRESS {
+  color: blue;
+}
+
+.status.COMPLETED {
+  color: green;
+}
+
+.status.APPROVED {
+  color: purple;
+}
+
+.status.RETURNED {
+  color: red;
+}
+
+.buttons {
+  margin-top: 15px;
+}
+
+.button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.start {
+  background: #007bff;
+  color: white;
+}
+
+.complete {
+  background: #28a745;
+  color: white;
+}
+
+.timer {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.comments {
+  margin-top: 30px;
+}
+
+.comment-box {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.input {
+  padding: 8px;
+  width: 70%;
+  margin-right: 10px;
+}
