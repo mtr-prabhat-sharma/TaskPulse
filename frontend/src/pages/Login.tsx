@@ -26,7 +26,7 @@ export default function Login() {
       localStorage.setItem("role", res.data.user.role);
 
       // 👉 Redirect to tasks page
-      navigate("/tasks");
+      navigate("/kanban");
     } catch (err: any) {
       console.error(err);
 

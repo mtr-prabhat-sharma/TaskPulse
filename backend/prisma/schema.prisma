@@ -52,6 +52,14 @@ model TimeLog {
   task      Task     @relation(fields: [taskId], references: [id])
 }
 
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  userId    String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   MANAGER
   EMPLOYEE

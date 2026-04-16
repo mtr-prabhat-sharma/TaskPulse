@@ -1,10 +1,13 @@
-import { getIO } from "../socket";
+import { prisma } from "../config/db";
 
-export const sendNotification = (userId: string, message: string) => {
-  const io = getIO();
-
-  io.to(userId).emit("notification", {
-    message,
-    time: new Date(),
+export const sendNotification = async (userId: string, message: string) => {
+  // ✅ Save in DB
+  await prisma.notification.create({
+    data: {
+      userId,
+      message,
+    },
   });
+
+  console.log("🔔 Notification saved:", message);
 };

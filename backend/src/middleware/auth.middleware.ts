@@ -3,16 +3,32 @@ import jwt from "jsonwebtoken";
 
 const SECRET = "secret";
 
-export const authMiddleware = (req: any, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization?.split(" ")[1];
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers.authorization;
 
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+  if (!authHeader) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  const parts = authHeader.split(" ");
+
+  if (parts.length !== 2) {
+    return res.status(401).json({ message: "Invalid token format" });
+  }
+
+  const token = parts[1] as string;
 
   try {
     const decoded = jwt.verify(token, SECRET);
-    req.user = decoded;
+
+    (req as any).user = decoded;   // ✅ important
+
     next();
-  } catch {
+  } catch (err) {
     return res.status(401).json({ message: "Invalid token" });
   }
 };
