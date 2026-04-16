@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./modules/auth/auth.routes";
 import taskRoutes from "./modules/task/task.routes";
 import commentRoutes from "./modules/comments/comment.routes";
+import userRoutes from "./modules/users/user.routes";
 
 
 const app = express();
@@ -18,5 +19,7 @@ app.use("/auth", authRoutes);
 app.use("/tasks", taskRoutes);
 
 app.use("/comments", commentRoutes);
+
+app.use("/users", userRoutes);
 
 export default app;

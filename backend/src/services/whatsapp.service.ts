@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const API_KEY = process.env.WHATSAPP_API_KEY;
-
 export const sendWhatsAppMessage = async (
   phone: string,
   message: string
@@ -10,7 +8,7 @@ export const sendWhatsAppMessage = async (
     await axios.post(
       "https://api.msg91.com/api/v5/whatsapp/whatsapp-outbound-message/bulk/",
       {
-        integrated_number: "YOUR_SANDBOX_NUMBER",
+        integrated_number: process.env.MSG91_WHATSAPP_NUMBER,
         content_type: "text",
         payload: {
           type: "text",
@@ -18,17 +16,23 @@ export const sendWhatsAppMessage = async (
         },
         recipients: [
           {
-            to: phone,
+            mobile: phone,
           },
         ],
       },
       {
         headers: {
-          authkey: API_KEY,
+          authkey: process.env.MSG91_API_KEY,
+          "Content-Type": "application/json",
         },
       }
     );
-  } catch (error) {
-    console.log("WhatsApp error:", error);
+
+    console.log("✅ WhatsApp API called");
+  } catch (error: any) {
+    console.error(
+      "❌ WhatsApp error:",
+      error.response?.data || error.message
+    );
   }
 };

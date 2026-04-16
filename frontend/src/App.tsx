@@ -3,6 +3,7 @@ import TaskList from "./pages/TaskList";
 import TaskDetail from "./pages/TaskDetail";
 import NotificationBell from "./components/NotificationBell";
 import Login from "./pages/Login";
+import Kanban from "./pages/Kanban";
 
 // 🔒 Simple protected route
 const ProtectedRoute = ({ children }: any) => {
@@ -38,6 +39,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/kanban" element={<Kanban />} />
       </Routes>
     </BrowserRouter>
   );

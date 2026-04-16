@@ -39,7 +39,7 @@ export const approve = async (req: any, res: Response) => {
 
 export const returnTask = async (req: any, res: Response) => {
   try {
-    const task = await taskService.returnTask(req.params.id, req.user);
+    const task = await taskService.returnTask(req.params.id, req.user, req.body.reason);
     res.json(task);
   } catch (err: any) {
     res.status(400).json({ message: err.message });

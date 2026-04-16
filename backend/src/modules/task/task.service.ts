@@ -1,6 +1,6 @@
 import { prisma } from "../../config/db";
 import { sendNotification } from "../../services/notification.service";
-
+import { sendWhatsAppMessage } from "../../services/whatsapp.service";
 
 // 🟢 CREATE TASK (Manager only)
 export const createTask = async (data: any, user: any) => {
@@ -18,8 +18,29 @@ export const createTask = async (data: any, user: any) => {
     },
   });
 
-  // 🔔 SEND NOTIFICATION
-  await sendNotification(data.assigneeId, `New task assigned: ${task.title}`);
+  // 🔔 In-app notification
+  await sendNotification(
+    data.assigneeId,
+    `New task assigned: ${task.title}`
+  );
+
+  // 📲 WhatsApp notification
+  const assignee = await prisma.user.findUnique({
+    where: { id: data.assigneeId },
+      select: {
+    id: true,
+    phone: true,
+  },
+
+  });
+
+  if (assignee?.phone) {
+    console.log("📲 Sending WhatsApp (Task Assigned)");
+    await sendWhatsAppMessage(
+      assignee.phone,
+      `📌 New Task Assigned: ${task.title}\nDue: ${task.dueDate}`
+    );
+  }
 
   return task;
 };
@@ -32,17 +53,14 @@ export const startTask = async (taskId: string, user: any) => {
 
   if (!task) throw new Error("Task not found");
 
-  // Only assigned employee
   if (user.userId !== task.assigneeId) {
     throw new Error("Not authorized to start this task");
   }
 
-  // Valid states
   if (task.status !== "PENDING" && task.status !== "RETURNED") {
     throw new Error("Task cannot be started");
   }
 
-  // Create time log
   await prisma.timeLog.create({
     data: {
       taskId,
@@ -83,10 +101,37 @@ export const completeTask = async (taskId: string, user: any) => {
     },
   });
 
-  return prisma.task.update({
+  const updated = await prisma.task.update({
     where: { id: taskId },
     data: { status: "COMPLETED" },
   });
+
+  // 🔔 Notify manager (in-app)
+  const manager = await prisma.user.findFirst({
+    where: { role: "MANAGER" },
+    select: {
+      id: true,
+      phone: true,
+    },
+  });
+
+  if (manager) {
+    await sendNotification(
+      manager.id,
+      `Task completed: ${task.title}`
+    );
+  }
+
+  // 📲 WhatsApp to manager
+  if (manager?.phone) {
+    console.log("📲 Sending WhatsApp (Task Completed)");
+    await sendWhatsAppMessage(
+      manager.phone,
+      `✅ Task Completed: ${task.title}`
+    );
+  }
+
+  return updated;
 };
 
 // 🟣 APPROVE TASK (Manager only)
@@ -112,7 +157,11 @@ export const approveTask = async (taskId: string, user: any) => {
 };
 
 // 🔴 RETURN TASK (Manager only)
-export const returnTask = async (taskId: string, user: any) => {
+export const returnTask = async (
+  taskId: string,
+  user: any,
+  reason: string
+) => {
   if (user.role !== "MANAGER") {
     throw new Error("Only manager can return task");
   }
@@ -127,21 +176,32 @@ export const returnTask = async (taskId: string, user: any) => {
     throw new Error("Task must be completed first");
   }
 
-  return prisma.task.update({
+  // 🔁 Update status
+  const updated = await prisma.task.update({
     where: { id: taskId },
     data: { status: "RETURNED" },
   });
+
+  // 💬 Auto comment (IMPORTANT for assignment)
+  await prisma.comment.create({
+    data: {
+      text: `Task returned: ${reason}`,
+      taskId,
+      userId: user.userId,
+    },
+  });
+
+  return updated;
 };
 
-
+// 📋 GET TASKS
 export const getTasks = async () => {
   return prisma.task.findMany({
     include: {
-      assignee: true, // optional but useful
+      assignee: true,
     },
     orderBy: {
       dueDate: "asc",
     },
   });
 };
-
