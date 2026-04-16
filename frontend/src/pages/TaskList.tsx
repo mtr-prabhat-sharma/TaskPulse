@@ -23,7 +23,7 @@ export default function TaskList() {
   };
 
   const fetchUsers = async () => {
-    const res = await api.get("/users"); // we will create this API
+    const res = await api.get("/users");
     setUsers(res.data);
   };
 
@@ -89,21 +89,18 @@ export default function TaskList() {
 
       {role === "MANAGER" && showForm && (
         <div className="form">
-          {/* Title FULL WIDTH */}
           <input
             className="input"
             placeholder="Task Title"
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
 
-          {/* Description FULL WIDTH */}
           <textarea
             className="textarea"
             placeholder="Description"
             onChange={(e) => setForm({ ...form, description: e.target.value })}
           />
 
-          {/* Row layout */}
           <div className="row">
             <select
               className="input"
@@ -139,7 +136,6 @@ export default function TaskList() {
           <small>Status: {t.status}</small>
 
           <div className="actions">
-            {/* EMPLOYEE */}
             {role === "EMPLOYEE" && t.status === "PENDING" && (
               <button className="btn btn-start" onClick={() => startTask(t.id)}>
                 ▶ Start
@@ -155,7 +151,6 @@ export default function TaskList() {
               </button>
             )}
 
-            {/* MANAGER */}
             {role === "MANAGER" && t.status === "COMPLETED" && (
               <>
                 <button

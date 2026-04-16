@@ -28,10 +28,9 @@ export const sendWhatsAppMessage = async (
       }
     );
 
-    console.log("✅ WhatsApp API called");
   } catch (error: any) {
     console.error(
-      "❌ WhatsApp error:",
+      "WhatsApp error:",
       error.response?.data || error.message
     );
   }

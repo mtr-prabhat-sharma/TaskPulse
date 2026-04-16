@@ -5,7 +5,6 @@ import NotificationBell from "./components/NotificationBell";
 import Login from "./pages/Login";
 import Kanban from "./pages/Kanban";
 
-// 🔒 Simple protected route
 const ProtectedRoute = ({ children }: any) => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/" />;
@@ -14,15 +13,14 @@ const ProtectedRoute = ({ children }: any) => {
 function App() {
   return (
     <BrowserRouter>
-      {/* 🔔 Always visible */}
+      
       <NotificationBell />
 
       <Routes>
-        {/* Login */}
+
         <Route path="/" element={<Login />} />
 
-        {/* Protected Routes */}
-        <Route
+          <Route
           path="/tasks"
           element={
             <ProtectedRoute>

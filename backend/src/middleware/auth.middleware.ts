@@ -25,7 +25,7 @@ export const authMiddleware = (
   try {
     const decoded = jwt.verify(token, SECRET);
 
-    (req as any).user = decoded;   // ✅ important
+    (req as any).user = decoded; 
 
     next();
   } catch (err) {

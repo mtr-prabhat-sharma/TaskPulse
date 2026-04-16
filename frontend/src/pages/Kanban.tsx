@@ -29,7 +29,6 @@ export default function Kanban() {
 
   return (
     <div className="kanban-wrapper">
-      {/* 🔝 Top bar */}
       <div className="kanban-top">
         <h2>📊 Kanban Board</h2>
 
@@ -55,7 +54,7 @@ export default function Kanban() {
         </div>
       </div>
 
-      {/* 🧱 Columns */}
+      
       <div className="kanban-container">
         {/* Pending */}
         <div className="column">
@@ -71,7 +70,7 @@ export default function Kanban() {
           ))}
         </div>
 
-        {/* In Progress */}
+        
         <div className="column">
           <h3>🔵 In Progress</h3>
           {getTasks("IN_PROGRESS").map((t) => (
@@ -85,7 +84,7 @@ export default function Kanban() {
           ))}
         </div>
 
-        {/* Completed */}
+        
         <div className="column">
           <h3>🟢 Completed</h3>
           {getTasks("COMPLETED").map((t) => (

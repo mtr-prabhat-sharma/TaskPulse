@@ -20,17 +20,17 @@ export default function Login() {
         password,
       });
 
-      // ✅ Save token + user info
+      
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.user.id);
       localStorage.setItem("role", res.data.user.role);
 
-      // 👉 Redirect to tasks page
+      
       navigate("/kanban");
     } catch (err: any) {
       console.error(err);
 
-      // Show backend error message
+      
       setError(err.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
@@ -41,7 +41,6 @@ export default function Login() {
     <div style={{ padding: "20px" }}>
       <h2>Login</h2>
 
-      {/* Email */}
       <input
         type="email"
         placeholder="Email"
@@ -50,7 +49,6 @@ export default function Login() {
         style={{ display: "block", marginBottom: "10px", padding: "8px" }}
       />
 
-      {/* Password */}
       <input
         type="password"
         placeholder="Password"
@@ -59,12 +57,10 @@ export default function Login() {
         style={{ display: "block", marginBottom: "10px", padding: "8px" }}
       />
 
-      {/* Button */}
       <button onClick={handleLogin} disabled={loading}>
         {loading ? "Logging in..." : "Login"}
       </button>
 
-      {/* Error */}
       {error && (
         <p style={{ color: "red", marginTop: "10px" }}>{error}</p>
       )}

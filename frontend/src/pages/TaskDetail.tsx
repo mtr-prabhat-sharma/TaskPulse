@@ -29,7 +29,7 @@ export default function TaskDetail() {
     fetchComments();
   }, [id]);
 
-  // ⏱ Timer
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setTime((prev) => prev + 1);
@@ -38,19 +38,19 @@ export default function TaskDetail() {
     return () => clearInterval(interval);
   }, []);
 
-  // ▶️ Start Task
+  
   const startTask = async () => {
     await api.patch(`/tasks/${id}/start`);
     fetchTask();
   };
 
-  // ✅ Complete Task
+  
   const completeTask = async () => {
     await api.patch(`/tasks/${id}/complete`);
     fetchTask();
   };
 
-  // 💬 Add Comment
+  
   const addComment = async () => {
     await api.post(`/comments/${id}`, { text });
     setText("");
@@ -68,7 +68,7 @@ export default function TaskDetail() {
 
         <p>{task.description}</p>
 
-        {/* Buttons */}
+        
         <div className="buttons">
           <button className="button start" onClick={startTask}>
             Start
@@ -78,10 +78,10 @@ export default function TaskDetail() {
           </button>
         </div>
 
-        {/* Timer */}
+        
         <div className="timer">⏱ Time: {time}s</div>
 
-        {/* Comments */}
+        
         <div className="comments">
           <h3>💬 Comments</h3>
 

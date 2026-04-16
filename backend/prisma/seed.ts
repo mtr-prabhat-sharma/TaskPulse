@@ -41,10 +41,9 @@ async function main() {
         phone: "919000000005",
       },
     ],
-    skipDuplicates: true, // ✅ avoids duplicate error
+    skipDuplicates: true, 
   });
 
-  console.log("✅ Users seeded successfully");
 }
 
 main()

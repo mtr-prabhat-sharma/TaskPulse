@@ -2,14 +2,14 @@ import { prisma } from "../../config/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = "secret"; // later move to env
+const JWT_SECRET = "secret"; 
 
 export const loginUser = async (email: string, password: string) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) throw new Error("User not found");
 
-  const isValid = password === user.password; // keep simple for now
+  const isValid = password === user.password;
 
   if (!isValid) throw new Error("Invalid password");
 
